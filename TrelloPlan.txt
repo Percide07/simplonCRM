@@ -1,0 +1,41 @@
+Semaine 1 (du 29 Avril au 01 Mai) - Analyse et Conception :
+- Analyse détaillée des besoins du projet et des spécifications fonctionnelles.
+- Conception de la base de données en se basant sur le dictionnaire des données fourni.
+- Répartition des tâches :
+  - Analyse des besoins et spécifications fonctionnelles.
+  - Conception de la base de données et du modèle logique.
+
+Autoformations recommandées :
+- Cours en ligne sur la conception de bases de données relationnelles.
+- Tutoriels sur la modélisation de bases de données avec MySQL.
+
+Semaine 2 (du 02 Mai au 04 Mai) - Développement de l'API et de l'Interface Utilisateur :
+- Mise en place de l'environnement de développement Node.js et Express et aussi Postman.
+- Développement des endpoints API pour les opérations CRUD (Client-L'entreprise-Le Produit).	
+- Intégration de l'API avec l'interface utilisateur.
+- Répartition des tâches :
+  -  Développement de l'API backend.
+  -  Développement de l'interface utilisateur frontend.
+
+Autoformations:
+- Tutoriels sur le développement d'API RESTful avec Node.js et Express.
+
+	Semaine 3 (du 05 Mai au 07 Mai) - Tests, Validation, et Finalisation :
+- Élaboration des plans de test pour chaque fonctionnalité.
+- Réalisation des tests unitaires et d'intégration.
+- Correction des bugs et des problèmes identifiés.
+- Recueil des retours des utilisateurs pour les ajustements nécessaires.
+- Déploiement de la solution sur un serveur ou une plateforme cloud.
+- Configuration des environnements de production, de test et de développement.
+- Surveillance continue du système et correction des problèmes éventuels.
+- Finalisation de la documentation du projet et des manuels d'utilisation.
+- Répartition des tâches :
+  - Tests de l'API backend, déploiement et configuration.
+  - Tests de l'interface utilisateur frontend, finalisation de la documentation.
+
+Autoformations:
+- Cours en ligne sur le déploiement d'applications Node.js sur des serveurs Linux.
+- Cours en ligne sur la gestion de projets informatiques et la documentation.
+
+import http from "http"
+type "module"

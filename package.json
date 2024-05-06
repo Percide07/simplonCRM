@@ -1,0 +1,14 @@
+{
+  "name": "simplecrm",
+  "version": "1.0.0",
+  "description": "simplonCRM_project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

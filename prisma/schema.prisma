@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id_client    Int @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  address      String
+  city         String
+  phoneNumber  String?
+  email        String   @unique
+  factures     Facture[]
+}
+
+model Entreprise {
+  id_entreprise       Int  @id @default(autoincrement())
+  nom_entreprise      String
+  siege_social        String
+  date_creation       DateTime
+  identifiant_fiscal  String @unique
+  capital             Float
+  nombre_employes     Int
+  ville               String
+  responsable         String
+  telephone           String
+  email               String @unique
+}
+
+model Produit {
+  id_produit   Int  @id @default(autoincrement())
+  nom_produit  String
+  prix_achat   Float
+  prix_vente   Float
+  taux_marge   Float
+  dimension    String
+  taille       String
+  commandes    Commande[]
+  approvisionnements Approvisionnement[]
+}
+
+model Fournisseur {
+  id_fournisseur  Int @id @default(autoincrement())
+  nom             String
+  adresse         String
+  ville           String
+  telephone       String
+  email           String @unique
+  approvisionnements Approvisionnement[]
+}
+
+model Facture {
+  id_facture    Int  @id @default(autoincrement()) @unique
+  id_client     Int
+  date_facture  DateTime
+  Client        Client  @relation(fields: [id_client], references: [id_client])
+  commandes     Commande[]
+}
+
+model Commande {
+  id_commande   Int @id @default(autoincrement())
+  id_facture    Int
+  id_produit    Int
+  quantite      Int
+  Facture       Facture @relation(fields: [id_facture], references: [id_facture])
+  Produit       Produit @relation(fields: [id_produit], references: [id_produit])
+}
+
+model Approvisionnement {
+  id_approvisionnement    Int @id @default(autoincrement())
+  id_produit              Int
+  id_fournisseur          Int
+  quantite                Int
+  date_approvisionnement  DateTime
+  Produit                 Produit     @relation(fields: [id_produit], references: [id_produit])
+  Fournisseur             Fournisseur @relation(fields: [id_fournisseur], references: [id_fournisseur])
+}

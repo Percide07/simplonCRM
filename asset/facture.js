@@ -1,12 +1,9 @@
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const router = express.Router();
 
-const app = express();
-app.use(express.json());
-
-// Ajouter une facture
-app.post('/factures', async (req, res) => {
+router.route('/').post(async (req, res) => {
     const { id_client, date_facture } = req.body;
     try {
         const newFacture = await prisma.facture.create({
@@ -19,10 +16,7 @@ app.post('/factures', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Erreur lors de l\'ajout de la facture.' });
     }
-});
-
-// Lire toutes les factures
-app.get('/factures', async (req, res) => {
+}).get(async (req, res) => {
     try {
         const factures = await prisma.facture.findMany();
         res.json(factures);
@@ -31,12 +25,11 @@ app.get('/factures', async (req, res) => {
     }
 });
 
-// Lire une facture par son ID
-app.get('/factures/:id', async (req, res) => {
+router.route('/:id').get(async (req, res) => {
     const id = parseInt(req.params.id);
     try {
         const facture = await prisma.facture.findUnique({
-            where: { id }
+            where: { id_facture: id }
         });
         if (!facture) {
             res.status(404).json({ error: 'Facture non trouvée.' });
@@ -46,28 +39,22 @@ app.get('/factures/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Erreur lors de la récupération de la facture.' });
     }
-});
-
-// Supprimer une facture par son ID
-app.delete('/factures/:id', async (req, res) => {
+}).delete(async (req, res) => {
     const id = parseInt(req.params.id);
     try {
         await prisma.facture.delete({
-            where: { id }
+            where: { id_facture: id }
         });
         res.json({ message: 'Facture supprimée avec succès.' });
     } catch (error) {
         res.status(500).json({ error: 'Erreur lors de la suppression de la facture.' });
     }
-});
-
-// Modifier les informations d'une facture par son ID
-app.put('/factures/:id', async (req, res) => {
+}).put(async (req, res) => {
     const id = parseInt(req.params.id);
     const { id_client, date_facture } = req.body;
     try {
         const updatedFacture = await prisma.facture.update({
-            where: { id },
+            where: { id_facture: id },
             data: {
                 id_client,
                 date_facture
@@ -79,7 +66,4 @@ app.put('/factures/:id', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-    console.log(`Serveur en écoute sur le port ${PORT}`);
-});
+module.exports = router;

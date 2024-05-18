@@ -36,6 +36,7 @@ model Entreprise {
   responsable         String
   telephone           String
   email               String @unique
+  
 }
 
 model Produit {

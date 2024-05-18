@@ -1,12 +1,9 @@
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const router = express.Router();
 
-const app = express();
-app.use(express.json());
-
-// Ajouter un fournisseur
-app.post('/fournisseurs', async (req, res) => {
+router.route('/').post(async (req, res) => {
     const { nom, adresse, ville, telephone, email } = req.body;
     try {
         const newFournisseur = await prisma.fournisseur.create({
@@ -22,10 +19,7 @@ app.post('/fournisseurs', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Erreur lors de l\'ajout du fournisseur.' });
     }
-});
-
-// Lire tous les fournisseurs
-app.get('/fournisseurs', async (req, res) => {
+}).get(async (req, res) => {
     try {
         const fournisseurs = await prisma.fournisseur.findMany();
         res.json(fournisseurs);
@@ -35,11 +29,11 @@ app.get('/fournisseurs', async (req, res) => {
 });
 
 // Lire un fournisseur par son ID
-app.get('/fournisseurs/:id', async (req, res) => {
+router.route('/:id').get(async (req, res) => {
     const id = parseInt(req.params.id);
     try {
         const fournisseur = await prisma.fournisseur.findUnique({
-            where: { id }
+            where: { id_fournisseur:id }
         });
         if (!fournisseur) {
             res.status(404).json({ error: 'Fournisseur non trouvé.' });
@@ -49,28 +43,22 @@ app.get('/fournisseurs/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Erreur lors de la récupération du fournisseur.' });
     }
-});
-
-// Supprimer un fournisseur par son ID
-app.delete('/fournisseurs/:id', async (req, res) => {
+}).delete(async (req, res) => {
     const id = parseInt(req.params.id);
     try {
         await prisma.fournisseur.delete({
-            where: { id }
+            where: { id_fournisseur:id }
         });
         res.json({ message: 'Fournisseur supprimé avec succès.' });
     } catch (error) {
         res.status(500).json({ error: 'Erreur lors de la suppression du fournisseur.' });
     }
-});
-
-// Modifier les informations d'un fournisseur par son ID
-app.put('/fournisseurs/:id', async (req, res) => {
+}).put(async (req, res) => {
     const id = parseInt(req.params.id);
     const { nom, adresse, ville, telephone, email } = req.body;
     try {
         const updatedFournisseur = await prisma.fournisseur.update({
-            where: { id },
+            where: { id_fournisseur:id },
             data: {
                 nom,
                 adresse,
@@ -85,7 +73,4 @@ app.put('/fournisseurs/:id', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-    console.log(`Serveur en écoute sur le port ${PORT}`);
-});
+module.exports = router;
